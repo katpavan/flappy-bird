@@ -83,12 +83,19 @@ function update ()
         this.scene.restart();﻿﻿﻿﻿ // restart current scene 
     }
 
-    // this.topPipes.children.iterate(function (child) {
-    // 	if (child == undefined) return
+    this.topPipes.children.iterate(function (child) {
+    	if (child == undefined) return
 
-    // 	if (child.x < -50) child.destroy()
-    // 	else child.x += -3
-    // })
+    	if (child.x < -50) child.destroy()
+    	else child.x += -3
+    })
+
+    this.bottomPipes.children.iterate(function (child) {
+    	if (child == undefined) return
+
+    	if (child.x < -50) child.destroy()
+    	else child.x += -3
+    })
 }
 
 function createPipes(){
