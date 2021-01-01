@@ -39,7 +39,7 @@ function preload ()
 {
     this.load.image('bird', 'assets/bird.png');
 
-    this.load.image('pipe', 'assets/pipe.png');
+    this.load.image('pipe', 'assets/pipe.png'); //50*50 pixels
 }
 
 function create ()
@@ -58,6 +58,7 @@ function create ()
 		b.setTint(0xff0000);
 	}, null, this);
 
+	//call the function and set what this is inside it
 	createPipes.call(this)
 
 	this.timedEvent = this.time.addEvent({ delay: 1500, callback: createPipes, callbackScope: this, loop: true });
@@ -65,8 +66,6 @@ function create ()
 
 function update ()
 {
-
-
     if (this.cursors.space.isDown)
     {
     	this.bird.setVelocityY(-350);
@@ -84,18 +83,23 @@ function update ()
         this.scene.restart();﻿﻿﻿﻿ // restart current scene 
     }
 
-	// this.pipes.children.iterate(function (child) {
-	// 	if (child == undefined) return
+    // this.topPipes.children.iterate(function (child) {
+    // 	if (child == undefined) return
 
-	// 	if (child.x < -50) child.destroy()
-	// 	else child.x += -3
-	// })
+    // 	if (child.x < -50) child.destroy()
+    // 	else child.x += -3
+    // })
 }
 
 function createPipes(){
-	topNum = Math.floor(Math.random()*3+1) //random number 1 to 4
+	var topNum = Math.floor(Math.random()*2+1) //random number 1 to 3
+	var bottomNum = 4-topNum;
 
-	this.pipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 400, y: 0, stepY: 40 } });
+	// this.topPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 400, y: 0, stepY: 40 } });
+	this.topPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 300, y: 50, stepY: 50 } });
+
+	// this.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 400, y: 490, stepY: 40 } });
+	this.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 300, y: 320, stepY: 50 } });
 }
 
 
