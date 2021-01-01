@@ -45,17 +45,22 @@ function preload ()
 function create ()
 {
 	this.bird = this.physics.add.sprite(100, 245, 'bird').setGravityY(1000);
-	this.pipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: 3, setXY: { x: 400, y: 0, stepY: 40 } });
-
+	
 	//  Input Events
 	//	using this in the update function
 	this.cursors = this.input.keyboard.createCursorKeys();
+
+	
 
 	this.physics.add.collider(this.bird, this.pipes, function(b, p, t){
 		t.physics.pause();
 
 		b.setTint(0xff0000);
 	}, null, this);
+
+	createPipes.call(this)
+
+	this.timedEvent = this.time.addEvent({ delay: 1500, callback: createPipes, callbackScope: this, loop: true });
 }
 
 function update ()
@@ -79,14 +84,19 @@ function update ()
         this.scene.restart();﻿﻿﻿﻿ // restart current scene 
     }
 
-	this.pipes.children.iterate(function (child) {
-		if (child == undefined) return
+	// this.pipes.children.iterate(function (child) {
+	// 	if (child == undefined) return
 
-		if (child.x < -50) child.destroy()
-		else child.x += -3
-	})
+	// 	if (child.x < -50) child.destroy()
+	// 	else child.x += -3
+	// })
 }
 
+function createPipes(){
+	topNum = Math.floor(Math.random()*3+1) //random number 1 to 4
+
+	this.pipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 400, y: 0, stepY: 40 } });
+}
 
 
 </script>
