@@ -85,17 +85,11 @@ function update ()
     }
 
     this.topPipes.children.iterate(function (child) {
-    	if (child == undefined) return
-
-    	if (child.x < -50) child.destroy()
-    	else child.x += -3
+    	child.x += -3
     })
 
     this.bottomPipes.children.iterate(function (child) {
-    	if (child == undefined) return
-
-    	if (child.x < -50) child.destroy()
-    	else child.x += -3
+    	child.x += -3
     })
 }
 
@@ -107,7 +101,7 @@ function createPipes(){
 	this.topPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 390, y: 50, stepY: 50 } });
 
 	// this.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 400, y: 490, stepY: 40 } });
-	this.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 390, y: 320, stepY: 50 } });
+	this.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 390, y: 350, stepY: 50 } });
 }
 
 
