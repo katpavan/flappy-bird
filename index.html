@@ -22,7 +22,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 1000 },
+            // gravity: { y: 1000 },
             debug: false
         }
     },
@@ -44,32 +44,18 @@ function preload ()
 
 function create ()
 {
-	this.bird = this.physics.add.sprite(100, 245, 'bird');
-	//  Create a few crates
-
-	//https://phaser.io/examples/v3/view/physics/arcade/group-vs-group
-		//quantity doesnt work though lol
-		var groupConfig = {
-		    key: 'pipe',
-		    quantity: 4,
-		    bounceX: 1,
-		    bounceY: 1,
-		    collideWorldBounds: true,
-		    velocityX: -150,
-		    velocityY: -200
-		}
-		this.pipes = this.physics.add.group();
-
-	sprite = this.physics.add.image(400, 300, 'pipe');
-
-	//not staying put
-	//not moving to the left
-	// https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Sprite.html
-	sprite.setVelocity(-200, 0).setCollideWorldBounds(true).setGravityY(0);
+	this.bird = this.physics.add.sprite(100, 245, 'bird').setGravityY(1000);
+	this.pipes = this.add.group({ key: 'pipe', frame: 0, repeat: 3, setXY: { x: 400, y: 0, stepY: 40 } });
 
 	//  Input Events
 	//	using this in the update function
 	this.cursors = this.input.keyboard.createCursorKeys();
+
+	this.physics.add.collider(this.bird, this.pipes, function(b, p, t){
+		t.physics.pause();
+
+		b.setTint(0xff0000);
+	}, null, this);
 }
 
 function update ()
@@ -93,11 +79,13 @@ function update ()
         this.scene.restart();﻿﻿﻿﻿ // restart current scene 
     }
 
-    this.physics.world.collide(this.bird, this.pipes);
+	this.pipes.children.iterate(function (child) {
+		if (child == undefined) return
 
+		if (child.x < -50) child.destroy()
+		else child.x += -3
+	})
 }
-
-
 
 
 
