@@ -45,7 +45,7 @@ function preload ()
 function create ()
 {
 	this.bird = this.physics.add.sprite(100, 245, 'bird').setGravityY(1000);
-	this.pipes = this.add.group({ key: 'pipe', frame: 0, repeat: 3, setXY: { x: 400, y: 0, stepY: 40 } });
+	this.pipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: 3, setXY: { x: 400, y: 0, stepY: 40 } });
 
 	//  Input Events
 	//	using this in the update function
