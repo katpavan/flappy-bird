@@ -64,8 +64,6 @@ function create ()
 
 	this.physics.add.collider(this.bird, this.bottomPipes, function(b, p, t){
 		t.physics.pause();
-
-		b.setTint("0x000000");
 	}, null, this);
 }
 
