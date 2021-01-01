@@ -30,6 +30,7 @@ var config = {
         preload: preload,
         create: create,
         update: update,
+        pipes: []
     }
 };
 
@@ -54,7 +55,7 @@ function create ()
 		//call the function and set what this is inside it
 		createPipes.call(this)
 
-		this.timedEvent = this.time.addEvent({ delay: 1500, callback: createPipes, callbackScope: this, loop: true });
+		this.timedEvent = this.time.addEvent({ delay: 3000, callback: createPipes, callbackScope: this, loop: true });
 
 	this.physics.add.collider(this.bird, this.topPipes, function(b, p, t){
 		t.physics.pause();
