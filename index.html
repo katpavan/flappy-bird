@@ -104,12 +104,7 @@ function createPipes(){
 
 	pipeOb.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 390, y: 350, stepY: 50 } });
 
-	this.physics.add.collider(this.bird, pipeOb.topPipes, function(b, p){
-		//restart
-			restart.call(this)
-	}, null, this);
-
-	this.physics.add.collider(this.bird, pipeOb.bottomPipes, function(b, p){
+	this.physics.add.collider(this.bird, [pipeOb.topPipes, pipeOb.bottomPipes], function(b, p){
 		//restart
 			restart.call(this)
 	}, null, this);
