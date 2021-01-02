@@ -75,9 +75,7 @@ function update ()
 
     //restart
     if (this.bird.y < 0 || this.bird.y > 490){
-        this.registry.destroy(); // destroy registry
-        this.events.off();﻿ // disable all active events
-        this.scene.restart();﻿﻿﻿﻿ // restart current scene 
+        restart.call(this)
     }
 
     for (var i =0; i<this.pipes.length; i++){
@@ -91,6 +89,12 @@ function update ()
     }
 }
 
+function restart(){
+	this.registry.destroy(); // destroy registry
+	this.events.off();﻿ // disable all active events
+	this.scene.restart();﻿﻿﻿﻿ // restart current scene 
+}
+
 function createPipes(){
 	var pipeOb = {}
 	var topNum = Math.floor(Math.random()*2+1) //random number 1 to 3
@@ -102,16 +106,12 @@ function createPipes(){
 
 	this.physics.add.collider(this.bird, pipeOb.topPipes, function(b, p){
 		//restart
-			this.registry.destroy(); // destroy registry
-			this.events.off();﻿ // disable all active events
-			this.scene.restart();﻿﻿﻿﻿ // restart current scene 
+			restart.call(this)
 	}, null, this);
 
 	this.physics.add.collider(this.bird, pipeOb.bottomPipes, function(b, p){
 		//restart
-			this.registry.destroy(); // destroy registry
-			this.events.off();﻿ // disable all active events
-			this.scene.restart();﻿﻿﻿﻿ // restart current scene 
+			restart.call(this)
 	}, null, this);
 
 	return pipeOb;
