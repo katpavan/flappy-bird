@@ -29,9 +29,9 @@ var config = {
     scene: {
         preload: preload,
         create: create,
-        update: update,
-        pipes: []
-    }
+        update: update
+    },
+
 };
 
 var game = new Phaser.Game(config);
@@ -52,18 +52,14 @@ function create ()
 	this.cursors = this.input.keyboard.createCursorKeys();
 
 	//create pipes
+		this.pipes = [];
+
 		//call the function and set what this is inside it
-		createPipes.call(this)
+		var pipeOb = createPipes.call(this)
 
-		this.timedEvent = this.time.addEvent({ delay: 3000, callback: createPipes, callbackScope: this, loop: true });
+		this.pipes.push(pipeOb.topPipes, pipeOb.bottomPipes);
 
-	this.physics.add.collider(this.bird, this.topPipes, function(b, p, t){
-		t.physics.pause();
-	}, null, this);
-
-	this.physics.add.collider(this.bird, this.bottomPipes, function(b, p, t){
-		t.physics.pause();
-	}, null, this);
+		// this.timedEvent = this.time.addEvent({ delay: 3000, callback: createPipes, callbackScope: this, loop: true });
 }
 
 function update ()
@@ -79,30 +75,46 @@ function update ()
 
     //restart
     if (this.bird.y < 0 || this.bird.y > 490){
-
         this.registry.destroy(); // destroy registry
         this.events.off();﻿ // disable all active events
         this.scene.restart();﻿﻿﻿﻿ // restart current scene 
     }
 
-    this.topPipes.children.iterate(function (child) {
-    	child.x += -3
-    })
+    for (var i =0; i<this.pipes.length; i++){
+    	this.pipes[i].children.iterate(function (child) {
+    		if (child.x < 0) {
+    			child.x = 390
+    		}
 
-    this.bottomPipes.children.iterate(function (child) {
-    	child.x += -3
-    })
+    		child.x += -3
+    	})
+    }
 }
 
 function createPipes(){
+	var pipeOb = {}
 	var topNum = Math.floor(Math.random()*2+1) //random number 1 to 3
 	var bottomNum = 4-topNum;
 
-	// this.topPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 400, y: 0, stepY: 40 } });
-	this.topPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 390, y: 50, stepY: 50 } });
+	pipeOb.topPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: topNum, setXY: { x: 390, y: 50, stepY: 50 } });
 
-	// this.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 400, y: 490, stepY: 40 } });
-	this.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 390, y: 350, stepY: 50 } });
+	pipeOb.bottomPipes = this.physics.add.group({ key: 'pipe', frame: 0, repeat: bottomNum, setXY: { x: 390, y: 350, stepY: 50 } });
+
+	this.physics.add.collider(this.bird, pipeOb.topPipes, function(b, p){
+		//restart
+			this.registry.destroy(); // destroy registry
+			this.events.off();﻿ // disable all active events
+			this.scene.restart();﻿﻿﻿﻿ // restart current scene 
+	}, null, this);
+
+	this.physics.add.collider(this.bird, pipeOb.bottomPipes, function(b, p){
+		//restart
+			this.registry.destroy(); // destroy registry
+			this.events.off();﻿ // disable all active events
+			this.scene.restart();﻿﻿﻿﻿ // restart current scene 
+	}, null, this);
+
+	return pipeOb;
 }
 
 
