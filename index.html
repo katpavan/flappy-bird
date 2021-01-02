@@ -55,11 +55,9 @@ function create ()
 		this.pipes = [];
 
 		//call the function and set what this is inside it
-		var pipeOb = createPipes.call(this)
+		createPipes.call(this)
 
-		this.pipes.push(pipeOb.topPipes, pipeOb.bottomPipes);
-
-		// this.timedEvent = this.time.addEvent({ delay: 3000, callback: createPipes, callbackScope: this, loop: true });
+		this.timedEvent = this.time.addEvent({ delay: 1500, callback: createPipes, callbackScope: this, loop: true });
 }
 
 function update ()
@@ -80,8 +78,8 @@ function update ()
 
     for (var i =0; i<this.pipes.length; i++){
     	this.pipes[i].children.iterate(function (child) {
-    		if (child.x < 0) {
-    			child.x = 390
+    		if (child.x < -3) {
+    			child.disableBody();
     		}
 
     		child.x += -3
@@ -109,7 +107,7 @@ function createPipes(){
 			restart.call(this)
 	}, null, this);
 
-	return pipeOb;
+	this.pipes.push(pipeOb.topPipes, pipeOb.bottomPipes);
 }
 
 
